@@ -22,34 +22,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        myMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            AssetFileDescriptor afd = getResources().openRawResourceFd(R.raw.long_fart);
-            myMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-        } catch (IOException e) {
-            Log.d(this.getClass().getSimpleName()+"onCreate", ".playButton.onClick mp3 not found");
-            e.printStackTrace();
-        }
-
-        //mp3 will be started after completion of preparing...
-        myMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            @Override
-            public void onPrepared(MediaPlayer player) {
-                Log.d(this.getClass().getSimpleName() + "onCreate::", "play button media player on prepared");
-                player.start();
-            }
-
-        });
-
-        myMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                Log.i("Completion Listener","Song Complete");
-                mp.stop();
-            }});
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myMediaPlayer = MediaPlayer.create(this, R.raw.long_fart);
+
 
         // Find the View that shows the numbers category
         Button playButton = (Button) findViewById(R.id.play_button);
@@ -60,11 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(this.getClass().getSimpleName() + "onCreate::", "play button tap");
-                if (currentPosition == null) {
-                    myMediaPlayer.prepareAsync(); // might take long! (for buffering, etc)
-                } else{
                     myMediaPlayer.start();
-                }
 
             }
         });
@@ -79,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(this.getClass().getSimpleName() + "onCreate::", "pause button tap");
                 myMediaPlayer.pause();
-                currentPosition =  myMediaPlayer.getCurrentPosition();
             }
         });
 
