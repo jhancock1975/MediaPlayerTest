@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(this.getClass().getSimpleName() + "onCreate::", "volume button tap");
+                myMediaPlayer.setVolume(0.5f, 0.5f);
             }
         });
 
