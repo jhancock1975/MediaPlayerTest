@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import javax.xml.datatype.Duration;
+
 public class MainActivity extends AppCompatActivity {
 
     MediaPlayer myMediaPlayer = new MediaPlayer();
@@ -37,7 +39,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(this.getClass().getSimpleName() + "onCreate::", "play button tap");
-                    myMediaPlayer.start();
+                myMediaPlayer.start();
+                myMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        Toast.makeText(MainActivity.this, "I'm done",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });
@@ -67,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 myMediaPlayer.setVolume(0.5f, 0.5f);
             }
         });
-
 
 
     }
